@@ -1,0 +1,1304 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ProcureSys - Premium Procurement & Sourcing Dashboard</title>
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <div class="app-container">
+    
+    <!-- ================= LEFT SIDEBAR ================= -->
+    <aside class="sidebar">
+      <div>
+        <!-- Logo Section -->
+        <div class="logo-container">
+          <div class="logo-square">P</div>
+          <div class="logo-text-wrapper">
+            <span class="product-name">PROCURESYS</span>
+            <span class="product-subtitle">Procurement Platform</span>
+          </div>
+        </div>
+
+        <!-- Sidebar Navigation Menu -->
+        <nav class="nav-menu">
+          <span class="menu-label-section">General</span>
+          <a href="#dashboard" class="nav-item active" data-view="dashboard">
+            <svg viewBox="0 0 24 24"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+            <span>Dashboard</span>
+          </a>
+          <a href="#vendor-history" class="nav-item" data-view="vendor-history">
+            <svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/></svg>
+            <span>Vendor History</span>
+          </a>
+          <a href="#rfq-management" class="nav-item" data-view="rfq-management">
+            <svg viewBox="0 0 24 24"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            <span>RFQ Management</span>
+          </a>
+          <a href="#penalty-module" class="nav-item" data-view="penalty-module">
+            <svg viewBox="0 0 24 24"><path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+            <span>Penalty Module</span>
+          </a>
+
+          <span class="menu-label-section">Inventory Control</span>
+          <a href="#inventory-dashboard" class="nav-item" data-view="inventory-dashboard">
+            <svg viewBox="0 0 24 24"><path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
+            <span>Inventory Dashboard</span>
+          </a>
+          <a href="#inventory-analytics" class="nav-item" data-view="inventory-analytics">
+            <svg viewBox="0 0 24 24"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 002 2h2a2 2 0 002-2z"/></svg>
+            <span>Analytics</span>
+          </a>
+          <a href="#inventory-reports" class="nav-item" data-view="inventory-reports">
+            <svg viewBox="0 0 24 24"><path d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+            <span>Reports</span>
+          </a>
+          <a href="#audit-log" class="nav-item" data-view="audit-log">
+            <svg viewBox="0 0 24 24"><path d="M12 11c0 3.517-1.009 6.799-2.753 9.571m-3.44-2.04l.054-.09A13.916 13.916 0 008 11a4 4 0 118 0c0 1.017-.07 2.019-.203 3m-2.118 6.844A21.88 21.88 0 0015.171 17m3.839 1.132c.645-2.266.99-4.659.99-7.132A8 8 0 008 4.07M3 15.364c.64-1.319 1-2.8 1-4.364 0-1.457.39-2.823 1.07-4"/></svg>
+            <span>Audit Log</span>
+          </a>
+        </nav>
+      </div>
+
+      <div class="sidebar-bottom">
+        <a href="#help-center" class="nav-item" data-view="help-center">
+          <svg viewBox="0 0 24 24"><path d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          <span>Help Center</span>
+        </a>
+        <a href="#settings" class="nav-item" data-view="settings">
+          <svg viewBox="0 0 24 24"><path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><circle cx="12" cy="12" r="3"/></svg>
+          <span>Settings</span>
+        </a>
+        <button class="theme-toggle-btn" id="theme-toggle-btn">
+          <svg viewBox="0 0 24 24" id="theme-icon"><path d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+          <span id="theme-text">Dark Mode</span>
+        </button>
+        <a href="#logout" class="nav-item" id="logout-btn">
+          <svg viewBox="0 0 24 24"><path d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 01-3-3h4a3 3 0 013 3v1"/></svg>
+          <span>Logout</span>
+        </a>
+      </div>
+    </aside>
+
+    <!-- ================= MAIN VIEWPORT ================= -->
+    <main class="main-viewport">
+      
+      <!-- Top fixed header -->
+      <header class="top-header">
+        <div class="header-left">
+          <span class="header-welcome">Welcome Back</span>
+          <span class="header-title" id="breadcrumb-title">Procurement Overview</span>
+        </div>
+
+        <div class="header-right">
+          <!-- Search Bar -->
+          <div class="search-container">
+            <svg viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+            <input type="text" placeholder="Search item, code, ref..." class="search-input" id="global-search">
+          </div>
+
+          <!-- Icons -->
+          <div class="header-actions">
+            <button class="icon-btn" title="Messages">
+              <svg viewBox="0 0 24 24"><path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+              <span class="badge-dot"></span>
+            </button>
+            <button class="icon-btn" title="Notifications">
+              <svg viewBox="0 0 24 24"><path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+              <span class="badge-dot"></span>
+            </button>
+          </div>
+
+          <!-- RBAC simulator dropdown -->
+          <div class="role-switcher-container">
+            <span class="role-switcher-label">Role Simulator</span>
+            <select class="role-select" id="role-select-box">
+              <option value="Inventory Team">Inventory Team</option>
+              <option value="Sourcing Team">Sourcing Team</option>
+              <option value="Finance Team">Finance Team</option>
+              <option value="Supplier">Supplier</option>
+            </select>
+          </div>
+        </div>
+      </header>
+
+      <!-- Scrollable content area -->
+      <div class="content-container">
+
+        <!-- ================= 1. GENERAL DASHBOARD VIEW ================= -->
+        <section id="dashboard" class="view-panel active">
+          <div class="page-title-row">
+            <h1 class="page-title">Procurement Overview</h1>
+          </div>
+
+          <!-- 4 KPI Cards in one row -->
+          <div class="kpi-row">
+            <div class="kpi-card">
+              <div class="kpi-indicator" style="background-color: #5B6EF5;"></div>
+              <span class="kpi-title">Total Vendors</span>
+              <div class="kpi-number-row">
+                <span class="kpi-number">248</span>
+                <span class="kpi-trend up">
+                  <svg viewBox="0 0 24 24"><path d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
+                  12.4%
+                </span>
+              </div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-indicator" style="background-color: #10B981;"></div>
+              <span class="kpi-title">Active RFQs</span>
+              <div class="kpi-number-row">
+                <span class="kpi-number">42</span>
+                <span class="kpi-trend up">
+                  <svg viewBox="0 0 24 24"><path d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
+                  8.1%
+                </span>
+              </div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-indicator" style="background-color: #8B5CF6;"></div>
+              <span class="kpi-title">Pending Invoices</span>
+              <div class="kpi-number-row">
+                <span class="kpi-number">15</span>
+                <span class="kpi-trend down">
+                  <svg viewBox="0 0 24 24"><path d="M13 17h8m0 0v-8m0 8l-8-8-4 4-6-6"/></svg>
+                  -3.2%
+                </span>
+              </div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-indicator" style="background-color: #6366F1;"></div>
+              <span class="kpi-title">Inventory Value</span>
+              <div class="kpi-number-row">
+                <span class="kpi-number" id="dashboard-inv-val">$2.45M</span>
+                <span class="kpi-trend up">
+                  <svg viewBox="0 0 24 24"><path d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
+                  15.6%
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Two-column charts layout -->
+          <div class="analytics-grid">
+            <div class="chart-card">
+              <div class="chart-header">
+                <h3 class="chart-title">Inventory Statistics</h3>
+              </div>
+              <div class="chart-content">
+                <!-- SVG Donut Chart -->
+                <svg class="donut-svg" id="dash-donut-chart">
+                  <circle class="donut-segment" cx="80" cy="80" r="60" stroke="#E5E7EB" style="stroke-dasharray: 377 377; stroke-dashoffset: 0;"></circle>
+                  <circle class="donut-segment" cx="80" cy="80" r="60" stroke="#10B981" id="donut-seg-available"></circle>
+                  <circle class="donut-segment" cx="80" cy="80" r="60" stroke="#F59E0B" id="donut-seg-low"></circle>
+                  <circle class="donut-segment" cx="80" cy="80" r="60" stroke="#EF4444" id="donut-seg-critical"></circle>
+                </svg>
+                <div class="donut-center">
+                  <span class="donut-center-value" id="donut-center-count">0</span>
+                  <span class="donut-center-lbl">Total items</span>
+                </div>
+              </div>
+              <div style="display: flex; justify-content: space-around; margin-top: 20px;">
+                <div class="legend-item" style="gap: 8px;">
+                  <span class="legend-dot" style="background-color: #10B981;"></span>
+                  <span class="legend-lbl">Available</span>
+                </div>
+                <div class="legend-item" style="gap: 8px;">
+                  <span class="legend-dot" style="background-color: #F59E0B;"></span>
+                  <span class="legend-lbl">Low Stock</span>
+                </div>
+                <div class="legend-item" style="gap: 8px;">
+                  <span class="legend-dot" style="background-color: #EF4444;"></span>
+                  <span class="legend-lbl">Critical</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="chart-card">
+              <div class="chart-header">
+                <h3 class="chart-title">Procurement Analytics (Spend Trend)</h3>
+              </div>
+              <div class="chart-content" id="spend-chart-container">
+                <!-- SVG Line Chart will be generated dynamically -->
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ================= 2. VENDOR HISTORY VIEW ================= -->
+        <section id="vendor-history" class="view-panel">
+          <div class="page-title-row">
+            <h1 class="page-title">Vendor History</h1>
+          </div>
+
+          <div class="table-container">
+            <div class="table-header-actions">
+              <span class="table-title">Registered Suppliers & Quotes</span>
+              <div class="filter-bar">
+                <select class="table-select" id="vendor-status-filter">
+                  <option value="All">All Statuses</option>
+                  <option value="Approved">Approved</option>
+                  <option value="Pending">Pending</option>
+                  <option value="Completed">Completed</option>
+                  <option value="Rejected">Rejected</option>
+                </select>
+                <button class="btn btn-secondary" id="export-vendors-btn">Export CSV</button>
+              </div>
+            </div>
+
+            <table class="enterprise-table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Vendor</th>
+                  <th>RFQ Reference</th>
+                  <th>Category</th>
+                  <th>Submission Date</th>
+                  <th>Status</th>
+                  <th>Quote Amount ($)</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="vendor-table-body">
+                <!-- Loaded dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ================= 3. OTHER MODULES PLACEHOLDERS ================= -->
+        <section id="rfq-management" class="view-panel">
+          <div class="page-title-row"><h1 class="page-title">RFQ Management</h1></div>
+          <div class="chart-card" style="text-align: center; padding: 60px;">
+            <svg viewBox="0 0 24 24" style="width: 80px; height: 80px; stroke: var(--primary); fill: none; margin-bottom: 20px;"><path d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+            <h2>RFQ & Supplier Bidding Module</h2>
+            <p style="color: var(--text-muted); margin-top: 10px;">Allocated to Sourcing Team. Integrated with inventory stock checking system.</p>
+          </div>
+        </section>
+
+        <section id="penalty-module" class="view-panel">
+          <div class="page-title-row"><h1 class="page-title">Penalty Module</h1></div>
+          <div class="chart-card" style="text-align: center; padding: 60px;">
+            <svg viewBox="0 0 24 24" style="width: 80px; height: 80px; stroke: var(--danger); fill: none; margin-bottom: 20px;"><path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+            <h2>SLA Violations & Penalty Calculations</h2>
+            <p style="color: var(--text-muted); margin-top: 10px;">Automatically calculates supplier delays and penalties according to SLA commitments.</p>
+          </div>
+        </section>
+
+        <!-- ================= 4. ALLOCATED MODULE: INVENTORY DASHBOARD (8.1) ================= -->
+        <section id="inventory-dashboard" class="view-panel">
+          
+          <!-- Sub nav-tabs for Inventory submodules to allow seamless switching -->
+          <div class="sub-nav-tabs">
+            <button class="sub-tab active" data-subview="inv-dashboard">Overview Dashboard</button>
+            <button class="sub-tab" data-subview="inv-stock-list">Stock List & Registry</button>
+            <button class="sub-tab" data-subview="inv-warehouses">Warehouse Management</button>
+            <button class="sub-tab" data-subview="inv-transfers">Stock Transfers</button>
+            <button class="sub-tab" data-subview="inv-reservations">Stock Reservations</button>
+            <button class="sub-tab" data-subview="inv-movements">Stock Movements</button>
+            <button class="sub-tab" data-subview="inv-alerts">Low Stock Alerts</button>
+          </div>
+
+          <!-- Sub-panel A: Inventory Overview (8.1) -->
+          <div id="subview-inv-dashboard" class="view-panel active">
+            <div class="kpi-row">
+              <div class="kpi-card" style="height: 120px;">
+                <div class="kpi-indicator" style="background-color: #5B6EF5;"></div>
+                <span class="kpi-title">Total SKUs</span>
+                <div class="kpi-number-row">
+                  <span class="kpi-number" id="lbl-total-skus">7</span>
+                  <span class="kpi-title">Products</span>
+                </div>
+              </div>
+              <div class="kpi-card" style="height: 120px;">
+                <div class="kpi-indicator" style="background-color: #6366F1;"></div>
+                <span class="kpi-title">Total Stock Units</span>
+                <div class="kpi-number-row">
+                  <span class="kpi-number" id="lbl-total-units">12,650</span>
+                  <span class="kpi-title">Units</span>
+                </div>
+              </div>
+              <div class="kpi-card" style="height: 120px;">
+                <div class="kpi-indicator" style="background-color: #8B5CF6;"></div>
+                <span class="kpi-title">Stock Value</span>
+                <div class="kpi-number-row">
+                  <span class="kpi-number" id="lbl-total-val">$185.4K</span>
+                  <span class="kpi-title">USD</span>
+                </div>
+              </div>
+              <div class="kpi-card" style="height: 120px;">
+                <div class="kpi-indicator" style="background-color: #F59E0B;"></div>
+                <span class="kpi-title">Low Stock Items</span>
+                <div class="kpi-number-row">
+                  <span class="kpi-number" id="lbl-low-stock-count">2</span>
+                  <span class="kpi-title" style="color: var(--warning);">Alerts</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="analytics-grid">
+              <!-- Stock Status Donut -->
+              <div class="chart-card">
+                <div class="chart-header">
+                  <h3 class="chart-title">Stock Status Distribution</h3>
+                </div>
+                <div class="chart-content">
+                  <svg class="donut-svg" id="inv-donut-chart">
+                    <circle class="donut-segment" cx="80" cy="80" r="60" stroke="#E5E7EB" style="stroke-dasharray: 377 377; stroke-dashoffset: 0;"></circle>
+                    <circle class="donut-segment" cx="80" cy="80" r="60" stroke="#10B981" id="inv-seg-instock"></circle>
+                    <circle class="donut-segment" cx="80" cy="80" r="60" stroke="#F59E0B" id="inv-seg-lowstock"></circle>
+                    <circle class="donut-segment" cx="80" cy="80" r="60" stroke="#EF4444" id="inv-seg-outstock"></circle>
+                  </svg>
+                  <div class="donut-center">
+                    <span class="donut-center-value" id="inv-donut-count">7</span>
+                    <span class="donut-center-lbl">SKUs</span>
+                  </div>
+                </div>
+                <div style="display: flex; justify-content: space-around; margin-top: 15px; font-size: 12px;">
+                  <div><span class="legend-dot" style="background-color:#10B981; display:inline-block;"></span> In Stock (<span id="count-instock">5</span>)</div>
+                  <div><span class="legend-dot" style="background-color:#F59E0B; display:inline-block;"></span> Low Stock (<span id="count-lowstock">2</span>)</div>
+                  <div><span class="legend-dot" style="background-color:#EF4444; display:inline-block;"></span> Out of Stock (<span id="count-outstock">0</span>)</div>
+                </div>
+              </div>
+
+              <!-- Stock Value by Category -->
+              <div class="chart-card">
+                <div class="chart-header">
+                  <h3 class="chart-title">Stock Value by Category</h3>
+                </div>
+                <div class="chart-content" id="category-bar-chart-container">
+                  <!-- Bar chart will be rendered by JS -->
+                </div>
+              </div>
+            </div>
+
+            <!-- Bottom Row: Recent Stock Movements & Top Low Stock Items -->
+            <div class="analytics-grid">
+              <div class="chart-card" style="padding: 16px;">
+                <div class="chart-header" style="margin-bottom: 12px;">
+                  <h3 class="chart-title">Recent Stock Movements</h3>
+                  <a href="#inventory-dashboard" class="sub-tab" style="font-size:12px; padding:0; border:none;" onclick="switchSubTab('inv-movements')">View All</a>
+                </div>
+                <table class="enterprise-table" style="font-size: 12px;">
+                  <thead>
+                    <tr>
+                      <th>Date</th>
+                      <th>Item</th>
+                      <th>Warehouse</th>
+                      <th>Type</th>
+                      <th>Qty</th>
+                      <th>Ref No.</th>
+                    </tr>
+                  </thead>
+                  <tbody id="recent-movements-tbody">
+                    <!-- Dynamic -->
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="chart-card" style="padding: 16px;">
+                <div class="chart-header" style="margin-bottom: 12px;">
+                  <h3 class="chart-title">Critical Low Stock Items</h3>
+                  <a href="#inventory-dashboard" class="sub-tab" style="font-size:12px; padding:0; border:none;" onclick="switchSubTab('inv-alerts')">Configure Alerts</a>
+                </div>
+                <table class="enterprise-table" style="font-size: 12px;">
+                  <thead>
+                    <tr>
+                      <th>Item</th>
+                      <th>Warehouse</th>
+                      <th>Available</th>
+                      <th>Reorder Level</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody id="critical-items-tbody">
+                    <!-- Dynamic -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sub-panel B: Stock Registry / Table (8.2) -->
+          <div id="subview-inv-stock-list" class="view-panel">
+            <div class="table-container">
+              <div class="table-header-actions">
+                <span class="table-title">Stock Registry</span>
+                <div class="filter-bar">
+                  <select class="table-select" id="stock-category-filter">
+                    <option value="All">All Categories</option>
+                    <option value="Raw Material">Raw Material</option>
+                    <option value="Components">Components</option>
+                    <option value="Fasteners">Fasteners</option>
+                    <option value="Electronic">Electronic</option>
+                    <option value="Consumables">Consumables</option>
+                  </select>
+                  <select class="table-select" id="stock-status-filter">
+                    <option value="All">All Statuses</option>
+                    <option value="In Stock">In Stock</option>
+                    <option value="Low Stock">Low Stock</option>
+                    <option value="Out of Stock">Out of Stock</option>
+                  </select>
+                  <button class="btn btn-secondary" id="export-stock-btn">Export CSV</button>
+                  <button class="btn btn-primary" id="btn-add-item-modal">+ New Item</button>
+                </div>
+              </div>
+
+              <table class="enterprise-table">
+                <thead>
+                  <tr>
+                    <th>Item Code</th>
+                    <th>Item Name</th>
+                    <th>Category</th>
+                    <th>UOM</th>
+                    <th>Warehouse</th>
+                    <th>Available Qty</th>
+                    <th>Reserved Qty</th>
+                    <th>On Hand Qty</th>
+                    <th>Status</th>
+                    <th style="text-align: right;">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="stock-table-body">
+                  <!-- Dynamic -->
+                </tbody>
+              </table>
+
+              <div class="pagination-row">
+                <span id="stock-pagination-info">Showing 1 to 7 of 7 items</span>
+                <div class="pagination-controls">
+                  <button class="page-btn" disabled>&lt;</button>
+                  <button class="page-btn active">1</button>
+                  <button class="page-btn" disabled>&gt;</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sub-panel C: Warehouse Management (8.4) -->
+          <div id="subview-inv-warehouses" class="view-panel">
+            <div class="table-container">
+              <div class="table-header-actions">
+                <span class="table-title">Warehouses List</span>
+                <button class="btn btn-primary" id="btn-add-wh-modal">+ New Warehouse</button>
+              </div>
+              <table class="enterprise-table">
+                <thead>
+                  <tr>
+                    <th>Warehouse Code</th>
+                    <th>Warehouse Name</th>
+                    <th>Location</th>
+                    <th>Manager</th>
+                    <th>Total Items Registered</th>
+                    <th>Status</th>
+                    <th style="text-align: right;">Action</th>
+                  </tr>
+                </thead>
+                <tbody id="warehouse-table-body">
+                  <!-- Dynamic -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Sub-panel D: Stock Transfer Management (8.7) -->
+          <div id="subview-inv-transfers" class="view-panel">
+            <div class="transfer-split-layout">
+              
+              <!-- Create Transfer Multi-step Wizard (Left side) -->
+              <div class="transfer-form-card">
+                <h3 style="margin-bottom: 20px; font-family: var(--font-title);">Create Stock Transfer</h3>
+                
+                <!-- Steps Nodes -->
+                <div class="step-wizard">
+                  <div class="wizard-progress-bar" id="wizard-progress"></div>
+                  <div class="step-node active" data-step="1">1</div>
+                  <div class="step-node" data-step="2">2</div>
+                  <div class="step-node" data-step="3">3</div>
+                </div>
+                
+                <form id="transfer-wizard-form" novalidate>
+                  <!-- Step 1: Transfer Details -->
+                  <div class="wizard-step-content active" data-step="1">
+                    <h4 style="margin-bottom: 15px;">Step 1: Transfer Details</h4>
+                    <div class="form-group">
+                      <label class="form-label">From Warehouse *</label>
+                      <select class="form-control" name="fromWH" required>
+                        <option value="">Select Source Warehouse</option>
+                        <option value="Chennai WH">Chennai WH</option>
+                        <option value="Coimbatore WH">Coimbatore WH</option>
+                        <option value="Bangalore WH">Bangalore WH</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label">To Warehouse *</label>
+                      <select class="form-control" name="toWH" required>
+                        <option value="">Select Destination Warehouse</option>
+                        <option value="Chennai WH">Chennai WH</option>
+                        <option value="Coimbatore WH">Coimbatore WH</option>
+                        <option value="Bangalore WH">Bangalore WH</option>
+                      </select>
+                    </div>
+                    <div class="form-row-2">
+                      <div class="form-group">
+                        <label class="form-label">Transfer Date *</label>
+                        <input type="date" class="form-control" name="transferDate" required>
+                      </div>
+                      <div class="form-group">
+                        <label class="form-label">Requested By *</label>
+                        <input type="text" class="form-control" name="requestedBy" placeholder="Enter name" required>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Step 2: Items Allocation -->
+                  <div class="wizard-step-content" data-step="2">
+                    <h4 style="margin-bottom: 15px;">Step 2: Add Items</h4>
+                    <p style="font-size:12px; color:var(--text-muted); margin-bottom:15px;">Select items and allocate quantities to transfer from the source warehouse.</p>
+                    
+                    <div class="transfer-items-list-box" id="transfer-items-container">
+                      <div class="transfer-item-row">
+                        <select class="form-control item-select" required>
+                          <option value="">Choose item...</option>
+                        </select>
+                        <input type="number" class="form-control qty-input" placeholder="Qty" min="1" required>
+                        <button type="button" class="action-icon-btn delete-btn" style="height:38px; border:1px solid var(--border-color);" onclick="removeTransferItemRow(this)">
+                          <svg viewBox="0 0 24 24"><path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                        </button>
+                      </div>
+                    </div>
+
+                    <button type="button" class="btn btn-secondary" style="margin-top:12px; width:100%;" id="add-transfer-item-btn">+ Add Another Item</button>
+                  </div>
+
+                  <!-- Step 3: Review & Submit -->
+                  <div class="wizard-step-content" data-step="3">
+                    <h4 style="margin-bottom: 15px;">Step 3: Review & Submit</h4>
+                    <div class="summary-metric-box" style="text-align:left; margin-bottom:15px; font-size:13px; line-height:1.6;">
+                      <div><strong>From:</strong> <span id="review-from"></span></div>
+                      <div><strong>To:</strong> <span id="review-to"></span></div>
+                      <div><strong>Date:</strong> <span id="review-date"></span></div>
+                      <div><strong>Requester:</strong> <span id="review-by"></span></div>
+                      <div style="margin-top: 10px; border-top: 1px dashed var(--border-color); padding-top: 8px;">
+                        <strong>Allocated Items:</strong>
+                        <ul id="review-items-list" style="margin-left: 16px; margin-top: 4px;"></ul>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label">Remarks (Optional)</label>
+                      <textarea class="form-control" name="remarks" placeholder="Enter remarks..." rows="2"></textarea>
+                    </div>
+                  </div>
+
+                  <div style="display:flex; justify-content:space-between; margin-top:24px; border-top:1px solid var(--border-color); padding-top:16px;">
+                    <button type="button" class="btn btn-secondary" id="wizard-prev-btn" style="visibility: hidden;">Back</button>
+                    <button type="button" class="btn btn-primary" id="wizard-next-btn">Next</button>
+                  </div>
+                </form>
+              </div>
+
+              <!-- Transfers List (Right side) -->
+              <div class="table-container">
+                <div class="table-header-actions">
+                  <span class="table-title">Transfer List</span>
+                </div>
+                <table class="enterprise-table" style="font-size:12px;">
+                  <thead>
+                    <tr>
+                      <th>Transfer No.</th>
+                      <th>Date</th>
+                      <th>From Warehouse</th>
+                      <th>To Warehouse</th>
+                      <th>Status</th>
+                      <th style="text-align: right;">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody id="transfer-table-body">
+                    <!-- Dynamic -->
+                  </tbody>
+                </table>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Sub-panel E: Inventory Reservations (8.6) -->
+          <div id="subview-inv-reservations" class="view-panel">
+            <div class="table-container">
+              <div class="table-header-actions">
+                <span class="table-title">Reservation List</span>
+                <button class="btn btn-primary" id="btn-add-res-modal">+ New Reservation</button>
+              </div>
+              <table class="enterprise-table">
+                <thead>
+                  <tr>
+                    <th>Reservation No.</th>
+                    <th>Date Requested</th>
+                    <th>Item Description</th>
+                    <th>Reserved For</th>
+                    <th>Warehouse Source</th>
+                    <th>Quantity Allocated</th>
+                    <th>Status</th>
+                    <th style="text-align: right;">Action</th>
+                  </tr>
+                </thead>
+                <tbody id="reservation-table-body">
+                  <!-- Dynamic -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Sub-panel F: Stock Movements Log (8.5) -->
+          <div id="subview-inv-movements" class="view-panel">
+            <div class="table-container">
+              <div class="table-header-actions">
+                <span class="table-title">Stock Movement List</span>
+                <div class="filter-bar">
+                  <select class="table-select" id="movement-type-filter">
+                    <option value="All">All Types</option>
+                    <option value="GRN">GRN (Goods Receipt)</option>
+                    <option value="Issue">Issue</option>
+                    <option value="Transfer">Transfer</option>
+                    <option value="Adjustment">Adjustment</option>
+                  </select>
+                  <input type="date" class="table-select" id="movement-date-from">
+                  <span style="font-size:12px; color:var(--text-muted);">to</span>
+                  <input type="date" class="table-select" id="movement-date-to">
+                  <button class="btn btn-secondary" id="movement-filter-btn">Filter</button>
+                </div>
+              </div>
+              <table class="enterprise-table">
+                <thead>
+                  <tr>
+                    <th>Movement Date</th>
+                    <th>Transaction Type</th>
+                    <th>Reference No.</th>
+                    <th>Item Description</th>
+                    <th>Warehouse Location</th>
+                    <th>Quantity Impact</th>
+                    <th>UOM</th>
+                    <th>Authorized By</th>
+                  </tr>
+                </thead>
+                <tbody id="movement-table-body">
+                  <!-- Dynamic -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Sub-panel G: Low Stock Alerts (8.8) -->
+          <div id="subview-inv-alerts" class="view-panel">
+            <div class="table-container">
+              <div class="table-header-actions">
+                <span class="table-title">Low Stock Alerts List</span>
+                <button class="btn btn-primary" id="btn-alert-rule-modal">Configure Alert Rules</button>
+              </div>
+              <table class="enterprise-table">
+                <thead>
+                  <tr>
+                    <th>Item Code</th>
+                    <th>Item Name</th>
+                    <th>Warehouse</th>
+                    <th>Available Quantity</th>
+                    <th>Reorder Threshold</th>
+                    <th>Status</th>
+                    <th style="text-align: right;">Action</th>
+                  </tr>
+                </thead>
+                <tbody id="alerts-table-body">
+                  <!-- Dynamic -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ================= 5. ALLOCATED MODULE: ITEM DETAILS VIEW (8.3) ================= -->
+        <section id="item-details" class="view-panel">
+          <div class="page-title-row">
+            <button class="btn btn-secondary" id="back-to-stock-btn">
+              <svg viewBox="0 0 24 24" style="width:16px; height:16px; fill:none; stroke:currentColor; stroke-width:2px;"><path d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+              Back to Stock List
+            </button>
+            <div>
+              <button class="btn btn-secondary" id="edit-item-details-btn">Edit Item</button>
+              <button class="btn btn-primary" id="verify-stock-btn">Verify Stock</button>
+            </div>
+          </div>
+
+          <div class="item-details-grid">
+            <!-- Left Profile Panel -->
+            <div class="item-profile-card">
+              <div class="item-img-placeholder" id="details-img-container">
+                <!-- SVG Icon representing item -->
+              </div>
+              <h2 id="details-item-name" style="margin-bottom:6px; font-family:var(--font-title);">Item Name</h2>
+              <span class="badge" id="details-item-status">Status</span>
+              
+              <div class="details-meta-grid">
+                <div class="meta-field">
+                  <span class="meta-label">Item Code</span>
+                  <span class="meta-value" id="details-item-code">-</span>
+                </div>
+                <div class="meta-field">
+                  <span class="meta-label">Category</span>
+                  <span class="meta-value" id="details-item-category">-</span>
+                </div>
+                <div class="meta-field">
+                  <span class="meta-label">UOM</span>
+                  <span class="meta-value" id="details-item-uom">-</span>
+                </div>
+                <div class="meta-field">
+                  <span class="meta-label">HSN Code</span>
+                  <span class="meta-value" id="details-item-hsn">-</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right Detail Tabs Panel -->
+            <div class="details-tabs-card">
+              <div class="card-tabs-header">
+                <button class="card-tab-btn active" data-detail-tab="overview">Overview</button>
+                <button class="card-tab-btn" data-detail-tab="stock-summary">Stock Summary</button>
+                <button class="card-tab-btn" data-detail-tab="warehouses">Warehouses</button>
+                <button class="card-tab-btn" data-detail-tab="history">History</button>
+              </div>
+
+              <div class="card-tabs-content">
+                <!-- Overview Panel -->
+                <div class="tab-panel active" id="detail-tab-overview">
+                  <h4 style="margin-bottom:12px;">Item Description</h4>
+                  <p id="details-item-description" style="line-height:1.6; color:var(--text-muted); margin-bottom:24px;">Deep groove ball bearing 6205 standard quality.</p>
+                  
+                  <h4 style="margin-bottom:12px;">Specifications</h4>
+                  <div class="spec-list" id="details-spec-list">
+                    <!-- Specifications based on item -->
+                  </div>
+                </div>
+
+                <!-- Stock Summary Panel -->
+                <div class="tab-panel" id="detail-tab-stock-summary">
+                  <h4 style="margin-bottom:16px;">Stock Allocations</h4>
+                  <div class="stock-summary-grid">
+                    <div class="summary-metric-box">
+                      <span class="summary-metric-lbl">On Hand Qty</span>
+                      <span class="summary-metric-val" id="details-sum-onhand">0</span>
+                    </div>
+                    <div class="summary-metric-box">
+                      <span class="summary-metric-lbl">Available Qty</span>
+                      <span class="summary-metric-val" id="details-sum-available" style="color:var(--success);">0</span>
+                    </div>
+                    <div class="summary-metric-box">
+                      <span class="summary-metric-lbl">Reserved Qty</span>
+                      <span class="summary-metric-val" id="details-sum-reserved" style="color:var(--warning);">0</span>
+                    </div>
+                    <div class="summary-metric-box">
+                      <span class="summary-metric-lbl">Reorder Level</span>
+                      <span class="summary-metric-val" id="details-sum-reorder">0</span>
+                    </div>
+                    <div class="summary-metric-box">
+                      <span class="summary-metric-lbl">Reorder Qty</span>
+                      <span class="summary-metric-val" id="details-sum-reorderqty">0</span>
+                    </div>
+                    <div class="summary-metric-box">
+                      <span class="summary-metric-lbl">Lead Time</span>
+                      <span class="summary-metric-val" id="details-sum-leadtime">0</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Warehouse Locations list -->
+                <div class="tab-panel" id="detail-tab-warehouses">
+                  <h4 style="margin-bottom:16px;">Warehouse Storage Points</h4>
+                  <table class="enterprise-table" style="font-size:12px;">
+                    <thead>
+                      <tr>
+                        <th>Warehouse</th>
+                        <th>Available Quantity</th>
+                        <th>Reserved Quantity</th>
+                        <th>Status</th>
+                      </tr>
+                    </thead>
+                    <tbody id="details-warehouse-tbody">
+                      <!-- Dynamic -->
+                    </tbody>
+                  </table>
+                </div>
+
+                <!-- Item Specific History -->
+                <div class="tab-panel" id="detail-tab-history">
+                  <h4 style="margin-bottom:16px;">Item Transaction History</h4>
+                  <table class="enterprise-table" style="font-size:12px;">
+                    <thead>
+                      <tr>
+                        <th>Date</th>
+                        <th>Type</th>
+                        <th>Reference</th>
+                        <th>Warehouse</th>
+                        <th>Impact</th>
+                        <th>User</th>
+                      </tr>
+                    </thead>
+                    <tbody id="details-history-tbody">
+                      <!-- Dynamic -->
+                    </tbody>
+                  </table>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ================= 6. ALLOCATED MODULE: INVENTORY ANALYTICS DASHBOARD ================= -->
+        <section id="inventory-analytics" class="view-panel">
+          <div class="page-title-row">
+            <h1 class="page-title">Inventory Analytics Dashboard</h1>
+            <div class="filter-bar">
+              <select class="table-select" id="analytics-warehouse-filter">
+                <option value="All">All Warehouses</option>
+                <option value="Chennai WH">Chennai WH</option>
+                <option value="Coimbatore WH">Coimbatore WH</option>
+                <option value="Bangalore WH">Bangalore WH</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="analytics-grid">
+            <div class="chart-card">
+              <div class="chart-header"><h3 class="chart-title">Stock Category Weights</h3></div>
+              <div class="chart-content" id="analytics-category-donut-container">
+                <!-- SVG category distribution donut chart -->
+              </div>
+            </div>
+            
+            <div class="chart-card">
+              <div class="chart-header">
+                <h3 class="chart-title">Stock Valuation Over Time</h3>
+              </div>
+              <div class="chart-content" id="analytics-valuation-trend-container">
+                <!-- SVG Area graph showing valuation trends -->
+              </div>
+            </div>
+          </div>
+
+          <div class="analytics-grid">
+            <div class="chart-card">
+              <div class="chart-header"><h3 class="chart-title">Lead Time Performance (Days)</h3></div>
+              <div class="chart-content" id="analytics-leadtime-bar-container">
+                <!-- SVG bar chart of lead times -->
+              </div>
+            </div>
+            <div class="chart-card">
+              <div class="chart-header"><h3 class="chart-title">Warehouse Storage Efficiency</h3></div>
+              <div class="chart-content" id="analytics-warehouse-efficiency-container">
+                <!-- Dynamic progress bars -->
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ================= 7. ALLOCATED MODULE: INVENTORY REPORTS (8.9) ================= -->
+        <section id="inventory-reports" class="view-panel">
+          <div class="page-title-row">
+            <h1 class="page-title">Inventory Reports</h1>
+          </div>
+
+          <div class="reports-layout">
+            <!-- Selector Panel -->
+            <div class="report-filter-panel">
+              <h3 style="margin-bottom: 20px; font-family: var(--font-title);">Generate Custom Reports</h3>
+              <div style="display:grid; grid-template-columns: repeat(4, 1fr); gap: 16px; align-items: flex-end;">
+                <div class="form-group" style="margin: 0;">
+                  <label class="form-label">Report Type *</label>
+                  <select class="form-control" id="report-type-select">
+                    <option value="Stock Summary Report">Stock Summary Report</option>
+                    <option value="Stock Movement Report">Stock Movement Report</option>
+                    <option value="Stock Valuation Report">Stock Valuation Report</option>
+                    <option value="Low Stock Report">Low Stock Report</option>
+                    <option value="Stock Aging Report">Stock Aging Report</option>
+                  </select>
+                </div>
+                <div class="form-group" style="margin: 0;">
+                  <label class="form-label">Warehouse *</label>
+                  <select class="form-control" id="report-wh-select">
+                    <option value="All">All Warehouses</option>
+                    <option value="Chennai WH">Chennai WH</option>
+                    <option value="Coimbatore WH">Coimbatore WH</option>
+                    <option value="Bangalore WH">Bangalore WH</option>
+                  </select>
+                </div>
+                <div class="form-group" style="margin: 0;">
+                  <label class="form-label">Start Date *</label>
+                  <input type="date" class="form-control" id="report-start-date" value="2025-05-01">
+                </div>
+                <button class="btn btn-primary" id="btn-generate-report" style="height:41px;">Generate Report</button>
+              </div>
+            </div>
+
+            <!-- Pre-defined Report download cards -->
+            <div class="report-cards-grid">
+              <div class="report-download-card" data-report-name="Stock Summary Report">
+                <div class="report-icon-box">
+                  <svg viewBox="0 0 24 24"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                </div>
+                <span class="report-card-title">Stock Summary Report</span>
+                <button class="btn btn-secondary btn-sm" onclick="triggerReportDownload('Stock Summary Report')">Download</button>
+              </div>
+              <div class="report-download-card" data-report-name="Stock Movement Report">
+                <div class="report-icon-box">
+                  <svg viewBox="0 0 24 24"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                </div>
+                <span class="report-card-title">Stock Movement Report</span>
+                <button class="btn btn-secondary btn-sm" onclick="triggerReportDownload('Stock Movement Report')">Download</button>
+              </div>
+              <div class="report-download-card" data-report-name="Stock Valuation Report">
+                <div class="report-icon-box">
+                  <svg viewBox="0 0 24 24"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                </div>
+                <span class="report-card-title">Stock Valuation Report</span>
+                <button class="btn btn-secondary btn-sm" onclick="triggerReportDownload('Stock Valuation Report')">Download</button>
+              </div>
+              <div class="report-download-card" data-report-name="Low Stock Report">
+                <div class="report-icon-box">
+                  <svg viewBox="0 0 24 24"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                </div>
+                <span class="report-card-title">Low Stock Report</span>
+                <button class="btn btn-secondary btn-sm" onclick="triggerReportDownload('Low Stock Report')">Download</button>
+              </div>
+              <div class="report-download-card" data-report-name="Stock Aging Report">
+                <div class="report-icon-box">
+                  <svg viewBox="0 0 24 24"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                </div>
+                <span class="report-card-title">Stock Aging Report</span>
+                <button class="btn btn-secondary btn-sm" onclick="triggerReportDownload('Stock Aging Report')">Download</button>
+              </div>
+            </div>
+
+            <!-- Preview panel showing dynamic loading state -->
+            <div class="chart-card" id="report-preview-panel" style="display:none;">
+              <div class="chart-header">
+                <h3 class="chart-title" id="report-preview-title">Report Preview</h3>
+                <button class="btn btn-primary" id="btn-export-pdf">Export PDF</button>
+              </div>
+              <div id="report-preview-content" style="overflow-x:auto; margin-top:16px;">
+                <!-- Table loading will occur here -->
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ================= 8. AUDIT LOGS VIEW ================= -->
+        <section id="audit-log" class="view-panel">
+          <div class="page-title-row">
+            <h1 class="page-title">Activity Audit Trail</h1>
+            <button class="btn btn-secondary" id="clear-audit-btn">Clear logs</button>
+          </div>
+          <div class="audit-list-container" id="audit-list-container">
+            <!-- Dynamic -->
+          </div>
+        </section>
+
+        <!-- ================= 9. HELP CENTER & SETTINGS PLACEHOLDERS ================= -->
+        <section id="help-center" class="view-panel">
+          <div class="page-title-row"><h1 class="page-title">Help Center</h1></div>
+          <div class="chart-card" style="padding: 40px; text-align: center;">
+            <h2>Need Assistance?</h2>
+            <p style="color:var(--text-muted); margin-top:10px;">Contact support at <strong>support@procuresys.com</strong> or view our API manuals.</p>
+          </div>
+        </section>
+
+        <section id="settings" class="view-panel">
+          <div class="page-title-row"><h1 class="page-title">Platform Settings</h1></div>
+          <div class="chart-card" style="padding: 40px;">
+            <h3 style="margin-bottom:15px;">System Details</h3>
+            <p style="color:var(--text-muted); margin-bottom:10px;">Release version: 1.0.0-PROTOTYPE</p>
+            <p style="color:var(--text-muted);">Current local node: <strong>ProcureSys Indian Region</strong></p>
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- ================================================================= -->
+  <!-- ======================== DIALOG MODALS ========================== -->
+  <!-- ================================================================= -->
+
+  <!-- A. ADD/EDIT ITEM MODAL -->
+  <div class="modal-overlay" id="modal-item">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 class="modal-title" id="item-modal-title">Register New Stock Item</h3>
+        <button class="modal-close-btn">&times;</button>
+      </div>
+      <form id="item-form" novalidate>
+        <div class="modal-body">
+          <input type="hidden" name="isEdit" value="false">
+          <div class="form-group">
+            <label class="form-label">Item Code *</label>
+            <input type="text" class="form-control" name="itemCode" placeholder="ITM-XXXX" required>
+          </div>
+          <div class="form-row-2">
+            <div class="form-group">
+              <label class="form-label">Item Name *</label>
+              <input type="text" class="form-control" name="itemName" placeholder="e.g., Bearing 6205" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Category *</label>
+              <select class="form-control" name="category" required>
+                <option value="">Select Category</option>
+                <option value="Raw Material">Raw Material</option>
+                <option value="Components">Components</option>
+                <option value="Fasteners">Fasteners</option>
+                <option value="Electronic">Electronic</option>
+                <option value="Consumables">Consumables</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row-2">
+            <div class="form-group">
+              <label class="form-label">UOM *</label>
+              <select class="form-control" name="uom" required>
+                <option value="">Select UOM</option>
+                <option value="Nos">Nos</option>
+                <option value="Kg">Kg</option>
+                <option value="Meter">Meter</option>
+                <option value="Litre">Litre</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Storage Warehouse *</label>
+              <select class="form-control" name="warehouse" required>
+                <option value="">Select Warehouse</option>
+                <option value="Chennai WH">Chennai WH</option>
+                <option value="Coimbatore WH">Coimbatore WH</option>
+                <option value="Bangalore WH">Bangalore WH</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row-2">
+            <div class="form-group">
+              <label class="form-label">Initial Available Qty *</label>
+              <input type="number" class="form-control" name="availableQty" placeholder="0" min="0" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Reorder level *</label>
+              <input type="number" class="form-control" name="reorderLevel" placeholder="e.g., 200" min="0" required>
+            </div>
+          </div>
+          <div class="form-row-2">
+            <div class="form-group">
+              <label class="form-label">Reorder Quantity *</label>
+              <input type="number" class="form-control" name="reorderQty" placeholder="e.g., 500" min="1" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Lead Time *</label>
+              <input type="text" class="form-control" name="leadTime" placeholder="e.g., 5 Days" required>
+            </div>
+          </div>
+          <div class="form-row-2">
+            <div class="form-group">
+              <label class="form-label">HSN Code *</label>
+              <input type="text" class="form-control" name="hsnCode" placeholder="8482" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Item Type *</label>
+              <select class="form-control" name="type" required>
+                <option value="Buy">Buy</option>
+                <option value="Make">Make</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Description</label>
+            <textarea class="form-control" name="description" placeholder="Item description details..." rows="2"></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary modal-cancel-btn">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="item-submit-btn">Save Item</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- B. VERIFY STOCK MODAL (FR-05) -->
+  <div class="modal-overlay" id="modal-verify">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 class="modal-title">Inventory Verification (FR-05)</h3>
+        <button class="modal-close-btn">&times;</button>
+      </div>
+      <form id="verify-form" novalidate>
+        <div class="modal-body">
+          <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 16px;">Perform stock count checking, inspect item quality state, and log visual/physical damages.</p>
+          <div class="form-group">
+            <label class="form-label">Physical Verified Qty *</label>
+            <input type="number" class="form-control" name="verifiedQty" placeholder="0" min="0" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Quality Status Inspection *</label>
+            <select class="form-control" name="qualityStatus" required>
+              <option value="Pass">Pass - Standard Quality</option>
+              <option value="Fail">Fail - Damaged / Substandard</option>
+              <option value="Pending Review">Pending Review</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Damage Log Qty (reduces stock counts) *</label>
+            <input type="number" class="form-control" name="damageLogged" value="0" min="0" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Verification Notes *</label>
+            <textarea class="form-control" name="notes" placeholder="Enter findings, visual details..." rows="3" required></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary modal-cancel-btn">Cancel</button>
+          <button type="submit" class="btn btn-primary">Submit Verification</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- C. CREATE WAREHOUSE MODAL -->
+  <div class="modal-overlay" id="modal-warehouse">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 class="modal-title">Register New Storage Point</h3>
+        <button class="modal-close-btn">&times;</button>
+      </div>
+      <form id="warehouse-form" novalidate>
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label">Warehouse Code *</label>
+            <input type="text" class="form-control" name="warehouseCode" placeholder="WH-XXX" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Warehouse Name *</label>
+            <input type="text" class="form-control" name="warehouseName" placeholder="e.g., Chennai Warehouse" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Geographic Location *</label>
+            <input type="text" class="form-control" name="location" placeholder="e.g., Chennai, TN" required>
+          </div>
+          <div class="form-row-2">
+            <div class="form-group">
+              <label class="form-label">Manager Assigned *</label>
+              <input type="text" class="form-control" name="manager" placeholder="e.g., Ramesh Kumar" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Operational Status *</label>
+              <select class="form-control" name="status" required>
+                <option value="Active">Active</option>
+                <option value="Inactive">Inactive</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary modal-cancel-btn">Cancel</button>
+          <button type="submit" class="btn btn-primary">Create Warehouse</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- D. CREATE RESERVATION MODAL -->
+  <div class="modal-overlay" id="modal-reservation">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 class="modal-title">Create Material Reservation</h3>
+        <button class="modal-close-btn">&times;</button>
+      </div>
+      <form id="reservation-form" novalidate>
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label">Item Description *</label>
+            <select class="form-control" name="item" id="res-item-select" required>
+              <!-- Dynamic -->
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Source Warehouse *</label>
+            <select class="form-control" name="warehouse" id="res-wh-select" required>
+              <option value="">Choose item first</option>
+            </select>
+          </div>
+          <div class="form-row-2">
+            <div class="form-group">
+              <label class="form-label">Reserved For Reference *</label>
+              <input type="text" class="form-control" name="ref" placeholder="e.g., PO-2025-058" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Quantity *</label>
+              <input type="number" class="form-control" name="qty" placeholder="0" min="1" required>
+            </div>
+          </div>
+          <div class="form-group" id="res-availability-tip" style="font-size:12px; font-weight:600; color:var(--text-muted);">
+            <!-- Displays max available stock -->
+          </div>
+          <div class="form-group">
+            <label class="form-label">Required Date *</label>
+            <input type="date" class="form-control" name="date" required>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary modal-cancel-btn">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Reservation</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- E. CONFIGURE ALERT RULES MODAL -->
+  <div class="modal-overlay" id="modal-alert-rule">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 class="modal-title">Configure Low Stock Thresholds</h3>
+        <button class="modal-close-btn">&times;</button>
+      </div>
+      <form id="alert-rule-form" novalidate>
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label">Select Item *</label>
+            <select class="form-control" name="itemCode" id="alert-item-select" required>
+              <!-- Dynamic -->
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Reorder Level Threshold *</label>
+            <input type="number" class="form-control" name="reorderLevel" placeholder="0" min="0" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Reorder Order Quantity *</label>
+            <input type="number" class="form-control" name="reorderQty" placeholder="0" min="1" required>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary modal-cancel-btn">Cancel</button>
+          <button type="submit" class="btn btn-primary">Update Threshold Rules</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- TOAST ALERT NOTIFICATION CONTAINER -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- ================================================================= -->
+  <!-- ======================= JAVASCRIPT SCRIPTS ====================== -->
+  <!-- ================================================================= -->
+
+  <!-- Load Database and Validation first, then App Controller -->
+  <script src="data.js"></script>
+  <script src="validation.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

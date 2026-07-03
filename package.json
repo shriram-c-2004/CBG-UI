@@ -1,0 +1,13 @@
+{
+  "name": "procuresys-inventory-module",
+  "version": "1.0.0",
+  "description": "Inventory and Stock Management Module prototype for ProcureSys",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx -y lite-server"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "lite-server": "^2.6.1"
+  }
+}
