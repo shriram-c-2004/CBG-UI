@@ -1607,3 +1607,59 @@ body {
     grid-template-columns: 1fr;
   }
 }
+
+/* Submenu Dropdown & Indentation */
+.submenu-toggle {
+  background: none;
+  border: none;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.submenu-container {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 0.25s ease-out;
+  padding-left: 10px;
+  border-left: 1px solid #1F2937;
+  margin-left: 20px;
+  margin-top: 4px;
+  margin-bottom: 4px;
+}
+
+.submenu-container.expanded {
+  max-height: 500px;
+}
+
+.sub-nav-item {
+  padding: 8px 12px !important;
+  font-size: 13px !important;
+}
+
+.arrow-icon {
+  margin-left: auto;
+  width: 14px;
+  height: 14px;
+  transition: transform 0.2s;
+  stroke: currentColor;
+  fill: none;
+}
+
+.submenu-toggle.expanded .arrow-icon {
+  transform: rotate(180deg);
+}
+
+.submenu-container .nav-item.active {
+  background-color: transparent;
+  color: var(--primary);
+  font-weight: 600;
+  box-shadow: none;
+  border-left: none;
+}
+

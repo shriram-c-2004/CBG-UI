@@ -3,7 +3,6 @@
 document.addEventListener("DOMContentLoaded", () => {
   // Main state elements
   let activeView = "dashboard";
-  let activeSubView = "inv-dashboard";
   let activeDetailItemCode = null;
   let activeRole = "Inventory Team"; // Default simulation role
   let currentTheme = "light";
@@ -22,9 +21,32 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const views = document.querySelectorAll(".nav-item[data-view]");
   const panels = document.querySelectorAll(".view-panel");
+  const inventoryToggleBtn = document.getElementById("inventory-toggle-btn");
+  const inventorySubmenu = document.getElementById("inventory-submenu");
+
+  function toggleSubmenu(expand) {
+    if (inventorySubmenu && inventoryToggleBtn) {
+      if (expand) {
+        inventorySubmenu.classList.add("expanded");
+        inventoryToggleBtn.classList.add("expanded");
+      } else {
+        inventorySubmenu.classList.remove("expanded");
+        inventoryToggleBtn.classList.remove("expanded");
+      }
+    }
+  }
 
   function switchView(viewName) {
     activeView = viewName;
+
+    // Toggle sub-menu visibility based on current view prefix
+    const isInventoryView = viewName.startsWith("inv-") || 
+                            viewName === "inventory-dashboard" || 
+                            viewName === "inventory-analytics" || 
+                            viewName === "inventory-reports" ||
+                            viewName === "audit-log" ||
+                            viewName === "item-details";
+    toggleSubmenu(isInventoryView);
 
     // Remove active class from nav items and add to chosen
     views.forEach(item => {
@@ -40,22 +62,47 @@ document.addEventListener("DOMContentLoaded", () => {
       if (panel.id === viewName) {
         panel.classList.add("active");
       } else {
-        if (!panel.id.startsWith("subview-") && !panel.id.startsWith("detail-tab-")) {
+        if (!panel.id.startsWith("detail-tab-")) {
           panel.classList.remove("active");
         }
       }
     });
 
     // Update Title & run specific rendering scripts
-    const prettyName = viewName.split("-").map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
-    breadcrumbTitle.innerText = viewName === "dashboard" ? "Procurement Overview" : prettyName;
+    let prettyName = viewName.split("-").map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
+    
+    // Custom label updates for breadcrumbs
+    if (viewName === "dashboard") prettyName = "Procurement Overview";
+    if (viewName === "inventory-dashboard") prettyName = "Inventory Overview";
+    if (viewName === "inv-stock-list") prettyName = "Stock Registry";
+    if (viewName === "inv-warehouses") prettyName = "Warehouse Management";
+    if (viewName === "inv-transfers") prettyName = "Stock Transfer Management";
+    if (viewName === "inv-reservations") prettyName = "Inventory Reservation";
+    if (viewName === "inv-alerts") prettyName = "Low Stock Alerts";
+    if (viewName === "inv-movements") prettyName = "Stock Movements";
+    if (viewName === "inventory-analytics") prettyName = "Inventory Analytics";
+    if (viewName === "inventory-reports") prettyName = "Inventory Reports";
+    
+    breadcrumbTitle.innerText = prettyName;
 
     if (viewName === "dashboard") {
       renderDashboard();
     } else if (viewName === "vendor-history") {
       renderVendorHistory();
     } else if (viewName === "inventory-dashboard") {
-      renderInventoryDashboard();
+      renderInventoryDashboardOverview();
+    } else if (viewName === "inv-stock-list") {
+      renderStockRegistry();
+    } else if (viewName === "inv-warehouses") {
+      renderWarehouseRegistry();
+    } else if (viewName === "inv-transfers") {
+      renderTransfersRegistry();
+    } else if (viewName === "inv-reservations") {
+      renderReservationsRegistry();
+    } else if (viewName === "inv-alerts") {
+      renderAlertsRegistry();
+    } else if (viewName === "inv-movements") {
+      renderMovementsRegistry();
     } else if (viewName === "inventory-analytics") {
       renderInventoryAnalytics();
     } else if (viewName === "audit-log") {
@@ -69,7 +116,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const validHashes = [
       "dashboard", "vendor-history", "rfq-management", "penalty-module",
       "inventory-dashboard", "inventory-analytics", "inventory-reports",
-      "audit-log", "help-center", "settings", "item-details"
+      "audit-log", "help-center", "settings", "item-details",
+      "inv-stock-list", "inv-warehouses", "inv-transfers", "inv-reservations", "inv-alerts", "inv-movements"
     ];
     if (validHashes.includes(hash)) {
       switchView(hash);
@@ -84,56 +132,25 @@ document.addEventListener("DOMContentLoaded", () => {
     switchView("dashboard");
   }
 
-  // Sub-Navigation Tabs inside Inventory Dashboard
-  const subTabs = document.querySelectorAll(".sub-tab[data-subview]");
-  
-  function switchSubTab(subViewName) {
-    activeSubView = subViewName;
-
-    // Toggle active tab highlight
-    subTabs.forEach(tab => {
-      if (tab.getAttribute("data-subview") === subViewName) {
-        tab.classList.add("active");
-      } else {
-        tab.classList.remove("active");
-      }
-    });
-
-    // Show corresponding subpanel
-    const subPanels = document.querySelectorAll("#inventory-dashboard .view-panel");
-    subPanels.forEach(panel => {
-      if (panel.id === `subview-${subViewName}`) {
-        panel.classList.add("active");
-      } else {
-        panel.classList.remove("active");
-      }
-    });
-
-    // Run subview specific draws
-    if (subViewName === "inv-dashboard") {
-      renderInventoryDashboardOverview();
-    } else if (subViewName === "inv-stock-list") {
-      renderStockRegistry();
-    } else if (subViewName === "inv-warehouses") {
-      renderWarehouseRegistry();
-    } else if (subViewName === "inv-transfers") {
-      renderTransfersRegistry();
-    } else if (subViewName === "inv-reservations") {
-      renderReservationsRegistry();
-    } else if (subViewName === "inv-movements") {
-      renderMovementsRegistry();
-    } else if (subViewName === "inv-alerts") {
-      renderAlertsRegistry();
-    }
-  }
-
-  subTabs.forEach(tab => {
-    tab.addEventListener("click", () => {
-      switchSubTab(tab.getAttribute("data-subview"));
+  // Bind click elements directly for fallback support
+  views.forEach(item => {
+    item.addEventListener("click", () => {
+      const view = item.getAttribute("data-view");
+      if (view) switchView(view);
     });
   });
 
-  window.switchSubTab = switchSubTab; // Export globally for quick actions
+  // Bind toggle action
+  if (inventoryToggleBtn) {
+    inventoryToggleBtn.addEventListener("click", () => {
+      const isExpanded = inventorySubmenu.classList.contains("expanded");
+      toggleSubmenu(!isExpanded);
+      if (!isExpanded) {
+        window.location.hash = "#inventory-dashboard";
+      }
+    });
+  }
+
 
   // =================================================================
   // ==================== ROLE SECURITY (RBAC) =======================
@@ -145,9 +162,8 @@ document.addEventListener("DOMContentLoaded", () => {
     db.logAudit("Simulator", "Role Swapped", `Swapped role to ${activeRole}`);
     
     // Refresh current views to lock/unlock inputs or actions
-    if (activeView === "inventory-dashboard") {
-      switchSubTab(activeSubView);
-    } else if (activeView === "item-details") {
+    switchView(activeView);
+    if (activeView === "item-details") {
       showItemDetails(activeDetailItemCode);
     }
   });
@@ -187,9 +203,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     db.logAudit("Simulator", "Theme Swapped", `Swapped visual theme to ${currentTheme}`);
     // Redraw charts since text colors or grid colors might need updating
-    if (activeView === "dashboard") renderDashboard();
-    if (activeView === "inventory-dashboard") renderInventoryDashboard();
-    if (activeView === "inventory-analytics") renderInventoryAnalytics();
+    switchView(activeView);
   });
 
   // =================================================================
@@ -231,18 +245,16 @@ document.addEventListener("DOMContentLoaded", () => {
     // Auto shift search targets based on active view
     if (activeView === "vendor-history") {
       renderVendorHistory(q);
-    } else if (activeView === "inventory-dashboard") {
-      if (activeSubView === "inv-stock-list") {
-        renderStockRegistry(q);
-      } else if (activeSubView === "inv-warehouses") {
-        renderWarehouseRegistry(q);
-      } else if (activeSubView === "inv-movements") {
-        renderMovementsRegistry(q);
-      } else if (activeSubView === "inv-transfers") {
-        renderTransfersRegistry(q);
-      } else if (activeSubView === "inv-reservations") {
-        renderReservationsRegistry(q);
-      }
+    } else if (activeView === "inv-stock-list") {
+      renderStockRegistry(q);
+    } else if (activeView === "inv-warehouses") {
+      renderWarehouseRegistry(q);
+    } else if (activeView === "inv-movements") {
+      renderMovementsRegistry(q);
+    } else if (activeView === "inv-transfers") {
+      renderTransfersRegistry(q);
+    } else if (activeView === "inv-reservations") {
+      renderReservationsRegistry(q);
     }
   });
 
@@ -260,7 +272,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let criticalStockItems = 0;
 
     items.forEach(i => {
-      totalInvVal += i.availableQty * (i.category === "Electronic" ? 150 : i.category === "Components" ? 45 : 12); // Mock valuations
+      totalInvVal += i.availableQty * (i.category === "Electronic" ? 150 : i.category === "Components" ? 45 : 12);
       totalStockCount += i.availableQty;
       if (i.status === "Low Stock") lowStockItems++;
       if (i.status === "Out of Stock") criticalStockItems++;
@@ -278,7 +290,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const donut = document.getElementById("dash-donut-chart");
     if (donut) {
-      // Calculate dashes
       const circumference = 2 * Math.PI * 60; // 377
       const availPct = availableCount / totalItems;
       const lowPct = lowCount / totalItems;
@@ -314,7 +325,6 @@ document.addEventListener("DOMContentLoaded", () => {
       let maxVal = Math.max(...dataPoints) * 1.1;
       let minVal = 0;
 
-      // Build points path
       let points = dataPoints.map((val, idx) => {
         let x = padding + (idx / (dataPoints.length - 1)) * (width - padding * 2);
         let y = height - padding - ((val - minVal) / (maxVal - minVal)) * (height - padding * 2);
@@ -323,7 +333,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
       let pathD = `M ${points[0].x} ${points[0].y}`;
       for (let i = 1; i < points.length; i++) {
-        // Curve construction using cubic bezier interpolation
         let cpX1 = points[i-1].x + (points[i].x - points[i-1].x) / 3;
         let cpY1 = points[i-1].y;
         let cpX2 = points[i-1].x + 2 * (points[i].x - points[i-1].x) / 3;
@@ -333,7 +342,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
       let areaD = `${pathD} L ${points[points.length-1].x} ${height - padding} L ${points[0].x} ${height - padding} Z`;
 
-      // Build grid line y-values
       let gridLines = "";
       for (let j = 0; j <= 4; j++) {
         let y = padding + (j / 4) * (height - padding * 2);
@@ -344,19 +352,16 @@ document.addEventListener("DOMContentLoaded", () => {
         `;
       }
 
-      // Draw bottom month markers
       let monthLabels = points.map(p => `
         <text class="axis-text" x="${p.x}" y="${height - 10}" text-anchor="middle">${p.month}</text>
       `).join("");
 
-      // Draw data points markers
       let pointCircles = points.map(p => `
         <circle class="chart-point" cx="${p.x}" cy="${p.y}" r="4" 
                 onmouseover="showChartTooltip(evt, '${p.month}', ${p.val})" 
                 onmouseout="hideChartTooltip()"></circle>
       `).join("");
 
-      // Primary HSL color translation: hsl(250, 84%, 54%)
       lineChartContainer.innerHTML = `
         <svg class="line-chart-svg">
           <defs>
@@ -379,26 +384,6 @@ document.addEventListener("DOMContentLoaded", () => {
       `;
     }
   }
-
-  // Chart hover helpers
-  window.showChartTooltip = (evt, month, value) => {
-    const tooltip = document.getElementById("dashboard-chart-tooltip");
-    if (tooltip) {
-      tooltip.style.opacity = "1";
-      tooltip.innerText = `${month}: $${value.toLocaleString()}`;
-      
-      const chartBounds = evt.target.parentNode.getBoundingClientRect();
-      const pointBounds = evt.target.getBoundingClientRect();
-      
-      tooltip.style.left = `${pointBounds.left - chartBounds.left - tooltip.clientWidth / 2 + pointBounds.width / 2}px`;
-      tooltip.style.top = `${pointBounds.top - chartBounds.top - tooltip.clientHeight - 8}px`;
-    }
-  };
-
-  window.hideChartTooltip = () => {
-    const tooltip = document.getElementById("dashboard-chart-tooltip");
-    if (tooltip) tooltip.style.opacity = "0";
-  };
 
   // --- 2. Vendor History Table ---
   function renderVendorHistory(searchQuery = "") {
@@ -453,28 +438,12 @@ document.addEventListener("DOMContentLoaded", () => {
     triggerDownload(csvContent, "VendorQuotesExport.csv");
   });
 
-  function triggerDownload(content, filename) {
-    const encodedUri = encodeURI(content);
-    const link = document.createElement("a");
-    link.setAttribute("href", encodedUri);
-    link.setAttribute("download", filename);
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    showToast(`${filename} export file downloaded successfully.`);
-  }
-
-  // --- 4. Allocated Inventory Dashboard ---
-  function renderInventoryDashboard() {
-    // Redraw overview sub-tabs
-    switchSubTab(activeSubView);
-  }
-
+  // --- 4. Allocated Inventory Dashboard Overview (8.1) ---
   function renderInventoryDashboardOverview() {
     const items = db.getItems();
     const movements = db.getMovements();
 
-    // 1. Calculations
+    // Calculations
     let totalSKUs = items.length;
     let totalUnits = 0;
     let totalValue = 0;
@@ -488,7 +457,6 @@ document.addEventListener("DOMContentLoaded", () => {
       if (i.status === "Out of Stock") outStockCount++;
     });
 
-    // Write counts to dashboard metric cards
     document.getElementById("lbl-total-skus").innerText = totalSKUs;
     document.getElementById("lbl-total-units").innerText = totalUnits.toLocaleString();
     document.getElementById("lbl-total-val").innerText = formatCurrency(totalValue);
@@ -524,10 +492,9 @@ document.addEventListener("DOMContentLoaded", () => {
       segOut.style.strokeDashoffset = -offset;
     }
 
-    // 2. Value by Category Bar Chart
+    // Value by Category Bar Chart
     const barContainer = document.getElementById("category-bar-chart-container");
     if (barContainer) {
-      // Aggregate values
       const categories = ["Raw Material", "Components", "Fasteners", "Electronic", "Consumables"];
       const catVal = categories.map(cat => {
         let sum = 0;
@@ -554,7 +521,7 @@ document.addEventListener("DOMContentLoaded", () => {
       barContainer.innerHTML = `<div style="display:flex; height:180px; width:100%; gap:20px; align-items:stretch; padding-top:16px;">${bars}</div>`;
     }
 
-    // 3. Render 5 Recent Movements
+    // Render 5 Recent Movements
     const movementsTbody = document.getElementById("recent-movements-tbody");
     movementsTbody.innerHTML = "";
     movements.slice(0, 5).forEach(m => {
@@ -572,7 +539,7 @@ document.addEventListener("DOMContentLoaded", () => {
       movementsTbody.appendChild(tr);
     });
 
-    // 4. Render Top Low Stock Items
+    // Render Top Low Stock Items
     const criticalTbody = document.getElementById("critical-items-tbody");
     criticalTbody.innerHTML = "";
     const lowStockList = items.filter(i => i.status === "Low Stock" || i.status === "Out of Stock").slice(0, 5);
@@ -619,7 +586,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     filtered.forEach(i => {
       const tr = document.createElement("tr");
-      
       let badgeClass = "badge-in-stock";
       if (i.status === "Low Stock") badgeClass = "badge-low-stock";
       if (i.status === "Out of Stock") badgeClass = "badge-out-of-stock";
@@ -681,14 +647,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const whs = db.getWarehouses();
     const items = db.getItems();
     const tbody = document.getElementById("warehouse-table-body");
-    
     tbody.innerHTML = "";
     
     let filtered = whs.filter(w => w.name.toLowerCase().includes(searchQuery) || w.code.toLowerCase().includes(searchQuery) || w.location.toLowerCase().includes(searchQuery));
 
     filtered.forEach(w => {
-      // Calculate active total item types matching warehouse name
-      const whItemsCount = items.filter(i => i.warehouse.toLowerCase().includes(w.name.split(" ")[0].toLowerCase())).length;
+      const whSKUs = items.filter(i => i.warehouse.toLowerCase().includes(w.name.split(" ")[0].toLowerCase())).length;
 
       const tr = document.createElement("tr");
       tr.innerHTML = `
@@ -696,7 +660,7 @@ document.addEventListener("DOMContentLoaded", () => {
         <td><strong>${w.name}</strong></td>
         <td>${w.location}</td>
         <td>${w.manager}</td>
-        <td><strong>${whItemsCount} SKUs</strong></td>
+        <td><strong>${whSKUs} SKUs</strong></td>
         <td><span class="badge ${w.status === "Active" ? "badge-approved" : "badge-cancelled"}">${w.status}</span></td>
         <td style="text-align: right;">
           <button class="action-icon-btn" title="View details"><svg viewBox="0 0 24 24"><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg></button>
@@ -706,7 +670,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // --- Sub-panel D: Stock Transfers registries & multi-step form ---
+  // --- Sub-panel D: Stock Transfers registries & form wizard ---
   function renderTransfersRegistry() {
     const transfers = db.getTransfers();
     const tbody = document.getElementById("transfer-table-body");
@@ -714,13 +678,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     transfers.forEach(t => {
       const tr = document.createElement("tr");
-      
       let statusClass = "badge-pending";
       if (t.status === "Completed") statusClass = "badge-completed";
       if (t.status === "In Transit") statusClass = "badge-in-transit";
       if (t.status === "Cancelled") statusClass = "badge-cancelled";
 
-      // Context Action Buttons based on Status and Active Role
       let actionButtons = "";
       if (t.status === "Pending Approval") {
         actionButtons = `
@@ -751,7 +713,6 @@ document.addEventListener("DOMContentLoaded", () => {
       tbody.appendChild(tr);
     });
 
-    // Initialize Source/Destination inputs for transfer wizard
     initTransferWizardSelectors();
   }
 
@@ -785,20 +746,17 @@ document.addEventListener("DOMContentLoaded", () => {
   const wizardSteps = document.querySelectorAll(".wizard-step-content");
   const wizardNodes = document.querySelectorAll(".step-node");
   const wizardProgressBar = document.getElementById("wizard-progress");
-  
   const wizardNextBtn = document.getElementById("wizard-next-btn");
   const wizardPrevBtn = document.getElementById("wizard-prev-btn");
 
   function renderWizardStep(step) {
     wizardCurrentStep = step;
     
-    // Toggle active classes on forms
     wizardSteps.forEach(ws => {
       if (Number(ws.getAttribute("data-step")) === step) ws.classList.add("active");
       else ws.classList.remove("active");
     });
 
-    // Toggle nodes classes
     wizardNodes.forEach(node => {
       const nodeStep = Number(node.getAttribute("data-step"));
       node.classList.remove("active", "completed");
@@ -806,11 +764,9 @@ document.addEventListener("DOMContentLoaded", () => {
       else if (nodeStep < step) node.classList.add("completed");
     });
 
-    // Set progress bar width
     const pct = ((step - 1) / 2) * 100;
     wizardProgressBar.style.width = `${pct}%`;
 
-    // Button states
     wizardPrevBtn.style.visibility = step === 1 ? "hidden" : "visible";
     wizardNextBtn.innerText = step === 3 ? "Submit Transfer" : "Next";
   }
@@ -820,7 +776,6 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!checkPermission("CreateTransfer")) return;
 
     if (wizardCurrentStep === 1) {
-      // Validate step 1 fields
       const fromWHSelect = wizardForm.querySelector("[name='fromWH']");
       const toWHSelect = wizardForm.querySelector("[name='toWH']");
       const dateSelect = wizardForm.querySelector("[name='transferDate']");
@@ -837,15 +792,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (!stepValid) return;
       
-      // Seed item drop-downs for step 2 based on selected source warehouse
       seedTransferItemsDropdown(fromWHSelect.value);
       renderWizardStep(2);
 
     } else if (wizardCurrentStep === 2) {
-      // Validate Step 2 inputs
       const rowSelects = wizardForm.querySelectorAll(".item-select");
       const rowInputs = wizardForm.querySelectorAll(".qty-input");
-      
       let stepValid = true;
       
       if (rowSelects.length === 0) {
@@ -861,7 +813,6 @@ document.addEventListener("DOMContentLoaded", () => {
         if (errorSelect) { Validator.showError(sel, errorSelect); stepValid = false; }
         if (errorInput) { Validator.showError(input, errorInput); stepValid = false; }
 
-        // Check availability
         if (!errorSelect && !errorInput) {
           const itemCode = sel.value;
           const transferQty = Number(input.value);
@@ -875,7 +826,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (!stepValid) return;
 
-      // Populate review values in step 3
       document.getElementById("review-from").innerText = wizardForm.querySelector("[name='fromWH']").value;
       document.getElementById("review-to").innerText = wizardForm.querySelector("[name='toWH']").value;
       document.getElementById("review-date").innerText = wizardForm.querySelector("[name='transferDate']").value;
@@ -892,7 +842,6 @@ document.addEventListener("DOMContentLoaded", () => {
       renderWizardStep(3);
 
     } else if (wizardCurrentStep === 3) {
-      // Submit transfer
       const fromWH = wizardForm.querySelector("[name='fromWH']").value;
       const toWH = wizardForm.querySelector("[name='toWH']").value;
       const date = wizardForm.querySelector("[name='transferDate']").value;
@@ -907,7 +856,6 @@ document.addEventListener("DOMContentLoaded", () => {
         itemsList.push({ name: item.name, qty: Number(rowInputs[idx].value) });
       });
 
-      // Submit to db
       const res = db.addTransfer({
         date,
         fromWH,
@@ -918,7 +866,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (res.success) {
         showToast(`Stock transfer ${res.code} proposed successfully! Pending approval.`, "success");
-        // Reset wizard
         wizardForm.reset();
         document.getElementById("transfer-items-container").innerHTML = `
           <div class="transfer-item-row">
@@ -942,7 +889,6 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   function initTransferWizardSelectors() {
-    // Fill transfer dates with current date
     const dateInput = wizardForm.querySelector("[name='transferDate']");
     if (dateInput) {
       const today = new Date();
@@ -960,7 +906,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Dynamic transfer rows adding
   document.getElementById("add-transfer-item-btn").addEventListener("click", () => {
     const container = document.getElementById("transfer-items-container");
     const firstRowOptions = container.querySelector(".item-select").innerHTML;
@@ -997,13 +942,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     filtered.forEach(r => {
       const tr = document.createElement("tr");
-
       let badgeClass = "badge-pending";
       if (r.status === "Active") badgeClass = "badge-approved";
       if (r.status === "Completed") badgeClass = "badge-completed";
       if (r.status === "Cancelled") badgeClass = "badge-cancelled";
 
-      // Approval Button triggers
       let actionHtml = "";
       if (r.status === "Pending Approval") {
         actionHtml = `
@@ -1056,7 +999,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const movements = db.getMovements();
     const tbody = document.getElementById("movement-table-body");
     const typeFilter = document.getElementById("movement-type-filter").value;
-    
     tbody.innerHTML = "";
 
     let filtered = movements.filter(m => {
@@ -1066,7 +1008,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     filtered.forEach(m => {
       const tr = document.createElement("tr");
-
       let typeBadge = "badge-approved";
       if (m.type === "Issue") typeBadge = "badge-rejected";
       if (m.type === "Transfer") typeBadge = "badge-in-transit";
@@ -1097,7 +1038,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const tbody = document.getElementById("alerts-table-body");
     tbody.innerHTML = "";
 
-    // Alerts are either Low Stock or Out of Stock items
     const alertItems = items.filter(i => i.status === "Low Stock" || i.status === "Out of Stock");
 
     if (alertItems.length === 0) {
@@ -1131,7 +1071,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const item = db.getItemByCode(itemCode);
     if (!item) return;
 
-    // Fill profiles details
     document.getElementById("details-item-name").innerText = item.name;
     document.getElementById("details-item-code").innerText = item.code;
     document.getElementById("details-item-category").innerText = item.category;
@@ -1145,7 +1084,6 @@ document.addEventListener("DOMContentLoaded", () => {
     if (item.status === "Out of Stock") statusBadge.classList.add("badge-out-of-stock");
     statusBadge.innerText = item.status;
 
-    // Draw item specific SVG icon
     const imgContainer = document.getElementById("details-img-container");
     let svgIcon = "";
     if (item.category === "Raw Material") {
@@ -1157,7 +1095,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     imgContainer.innerHTML = svgIcon;
 
-    // Overview Tab content
     document.getElementById("details-item-description").innerText = item.description || "No description provided.";
     const specList = document.getElementById("details-spec-list");
     specList.innerHTML = `
@@ -1167,7 +1104,6 @@ document.addEventListener("DOMContentLoaded", () => {
       <div class="spec-item"><span class="spec-lbl">Replenishment Logic</span><span class="spec-val">${item.type} (Sourcing Type)</span></div>
     `;
 
-    // Stock metrics
     document.getElementById("details-sum-onhand").innerText = item.onHandQty.toLocaleString();
     document.getElementById("details-sum-available").innerText = item.availableQty.toLocaleString();
     document.getElementById("details-sum-reserved").innerText = item.reservedQty.toLocaleString();
@@ -1175,7 +1111,6 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("details-sum-reorderqty").innerText = item.reorderQty.toLocaleString();
     document.getElementById("details-sum-leadtime").innerText = item.leadTime;
 
-    // Warehouses Tab
     const whTbody = document.getElementById("details-warehouse-tbody");
     whTbody.innerHTML = `
       <tr>
@@ -1186,7 +1121,6 @@ document.addEventListener("DOMContentLoaded", () => {
       </tr>
     `;
 
-    // History Tab
     const historyTbody = document.getElementById("details-history-tbody");
     historyTbody.innerHTML = "";
     const movements = db.getMovements().filter(m => m.item.toLowerCase() === item.name.toLowerCase());
@@ -1213,11 +1147,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Handle back button on item details
   document.getElementById("back-to-stock-btn").addEventListener("click", () => {
-    switchView("inventory-dashboard");
-    switchSubTab("inv-stock-list");
+    switchView("inv-stock-list");
   });
 
-  // Tab selections inside Item Details View
   const detailTabs = document.querySelectorAll(".card-tab-btn[data-detail-tab]");
   detailTabs.forEach(tab => {
     tab.addEventListener("click", () => {
@@ -1233,7 +1165,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  window.showItemDetails = showItemDetails; // Export globally
+  window.showItemDetails = showItemDetails;
 
   // --- 6. Allocated Inventory Analytics Dashboard (SVG Charts) ---
   function renderInventoryAnalytics() {
@@ -1246,7 +1178,6 @@ document.addEventListener("DOMContentLoaded", () => {
       const counts = categories.map(cat => items.filter(i => i.category === cat).length);
       const total = counts.reduce((a, b) => a + b, 0) || 1;
 
-      // Draw SVG donut segments
       const circumference = 2 * Math.PI * 60;
       const colors = ["#5B6EF5", "#10B981", "#8B5CF6", "#F59E0B", "#EF4444"];
       let offset = 0;
@@ -1263,19 +1194,18 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       });
 
-      // Legends
       let legendHtml = categories.map((cat, idx) => `
         <div class="legend-item">
           <div class="legend-lbl-wrap">
             <span class="legend-dot" style="background-color: ${colors[idx]};"></span>
             <span>${cat}</span>
           </div>
-          <span class="legend-val">${counts[idx]} items (${Math.round((counts[idx]/total)*100)}%)</span>
+          <span class="legend-val">${counts[idx]} ${counts[idx] === 1 ? 'item' : 'items'} (${Math.round((counts[idx]/total)*100)}%)</span>
         </div>
       `).join("");
 
       donutContainer.innerHTML = `
-        <svg class="donut-svg" style="width:140px; height:140px;">
+        <svg class="donut-svg" viewBox="0 0 160 160" style="width:140px; height:140px;">
           <circle class="donut-segment" cx="80" cy="80" r="60" stroke="#E5E7EB" style="stroke-dasharray: ${circumference} ${circumference}; stroke-dashoffset: 0;"></circle>
           ${svgSegments}
         </svg>
@@ -1283,7 +1213,7 @@ document.addEventListener("DOMContentLoaded", () => {
       `;
     }
 
-    // B. Valuation trends area chart (SVG area path)
+    // B. Valuation trends area chart
     const valuationContainer = document.getElementById("analytics-valuation-trend-container");
     if (valuationContainer) {
       const valuationHistory = [120000, 135000, 115000, 150000, 145000, 160000, 185400];
@@ -1313,7 +1243,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
       let areaD = `${pathD} L ${points[points.length-1].x} ${height - padding} L ${points[0].x} ${height - padding} Z`;
 
-      // Build grid line y-values
       let gridLines = "";
       for (let j = 0; j <= 3; j++) {
         let y = padding + (j / 3) * (height - padding * 2);
@@ -1348,7 +1277,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const leadtimeContainer = document.getElementById("analytics-leadtime-bar-container");
     if (leadtimeContainer) {
       const items = db.getItems();
-      // Parse days
       let width = leadtimeContainer.clientWidth || 400;
       let height = 220;
       let padding = 45;
@@ -1388,9 +1316,8 @@ document.addEventListener("DOMContentLoaded", () => {
       const items = db.getItems();
 
       let linesHtml = whs.map(w => {
-        // Calculate dynamic storage occupation percentage (SKU count / max capacity mock)
         const whSKUs = items.filter(i => i.warehouse.toLowerCase().includes(w.name.split(" ")[0].toLowerCase())).length;
-        const capacityPct = Math.min(100, Math.round((whSKUs / 10) * 100)); // Assume 10 SKUs max capacity
+        const capacityPct = Math.min(100, Math.round((whSKUs / 10) * 100));
 
         let progressColor = "var(--primary)";
         if (capacityPct > 80) progressColor = "var(--danger)";
@@ -1417,12 +1344,10 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("btn-generate-report").addEventListener("click", () => {
     const reportType = document.getElementById("report-type-select").value;
     const warehouse = document.getElementById("report-wh-select").value;
-    
     const previewPanel = document.getElementById("report-preview-panel");
     const previewTitle = document.getElementById("report-preview-title");
     const previewContent = document.getElementById("report-preview-content");
 
-    // Show loading simulator
     previewPanel.style.display = "block";
     previewTitle.innerText = `${reportType} - Generating...`;
     previewContent.innerHTML = `
@@ -1437,14 +1362,13 @@ document.addEventListener("DOMContentLoaded", () => {
       </style>
     `;
     
-    // Autoscroll to preview
     previewPanel.scrollIntoView({ behavior: "smooth" });
 
     setTimeout(() => {
       previewTitle.innerText = `${reportType} (${warehouse})`;
       const items = db.getItems();
-      
       let tableRows = "";
+      
       if (reportType === "Stock Valuation Report") {
         let totalVal = 0;
         let filtered = items.filter(i => warehouse === "All" || i.warehouse === warehouse);
@@ -1523,7 +1447,6 @@ document.addEventListener("DOMContentLoaded", () => {
           </table>
         `;
       } else {
-        // Generic template for others
         let filtered = items.filter(i => warehouse === "All" || i.warehouse === warehouse);
         filtered.forEach(i => {
           tableRows += `
@@ -1570,7 +1493,7 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   document.getElementById("btn-export-pdf").addEventListener("click", () => {
-    window.print(); // Triggers native browser print stylesheets
+    window.print();
   });
 
   // --- 8. Audit Logs View ---
@@ -1623,7 +1546,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Bind close buttons
   cancelBtns.forEach(btn => {
     btn.addEventListener("click", (e) => {
       e.preventDefault();
@@ -1649,7 +1571,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Submit Add/Edit Item Form
   itemForm.addEventListener("submit", (e) => {
     e.preventDefault();
     if (!checkPermission("EditStock")) return;
@@ -1678,7 +1599,6 @@ document.addEventListener("DOMContentLoaded", () => {
     if (isEdit) {
       db.updateItem(itemData, activeRole);
       showToast(`Item details for ${itemData.code} updated!`);
-      // If we are currently inside details, refresh details view
       if (activeView === "item-details" && activeDetailItemCode === itemData.code) {
         showItemDetails(itemData.code);
       }
@@ -1696,7 +1616,6 @@ document.addEventListener("DOMContentLoaded", () => {
     renderStockRegistry();
   });
 
-  // Edit modal opener helper
   window.openEditItemModal = (code) => {
     if (!checkPermission("EditStock")) return;
     const item = db.getItemByCode(code);
@@ -1705,7 +1624,6 @@ document.addEventListener("DOMContentLoaded", () => {
     itemForm.reset();
     itemForm.querySelector("[name='isEdit']").value = "true";
     
-    // Fill values
     const codeInput = itemForm.querySelector("[name='itemCode']");
     codeInput.value = item.code;
     codeInput.readOnly = true;
@@ -1726,14 +1644,13 @@ document.addEventListener("DOMContentLoaded", () => {
     openModal("modal-item");
   };
 
-  // Direct trigger from details page
   document.getElementById("edit-item-details-btn").addEventListener("click", () => {
     if (activeDetailItemCode) {
       window.openEditItemModal(activeDetailItemCode);
     }
   });
 
-  // B. Verify Stock Modal (FR-05)
+  // B. Verify Stock Modal
   let verifyTargetCode = null;
   const verifyForm = document.getElementById("verify-form");
 
@@ -1785,9 +1702,8 @@ document.addEventListener("DOMContentLoaded", () => {
       showToast(`Verification logs filed for SKU ${verifyTargetCode}!`, "success");
       closeModal("modal-verify");
       
-      // Refresh active view
       if (activeView === "item-details") showItemDetails(verifyTargetCode);
-      if (activeView === "inventory-dashboard") switchSubTab(activeSubView);
+      if (activeView === "inv-stock-list") renderStockRegistry();
     }
   });
 
@@ -1839,9 +1755,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!checkPermission("CreateReservation")) return;
       resForm.reset();
       
-      // Fill Items dropdown
       const items = db.getItems();
-      // Keep only unique names to choose from
       const uniqueNames = [...new Set(items.map(i => i.name))];
       resItemSelect.innerHTML = `<option value="">Choose item...</option>` + 
         uniqueNames.map(name => `<option value="${name}">${name}</option>`).join("");
@@ -1849,7 +1763,6 @@ document.addEventListener("DOMContentLoaded", () => {
       resWHSelect.innerHTML = `<option value="">Choose item first</option>`;
       resAvailabilityTip.innerText = "";
       
-      // Set reservation date to tomorrow
       const tomorrow = new Date();
       tomorrow.setDate(tomorrow.getDate() + 1);
       resForm.querySelector("[name='date']").value = tomorrow.toISOString().split("T")[0];
@@ -1858,7 +1771,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Handle item selection change inside reservation form
   resItemSelect.addEventListener("change", () => {
     const itemName = resItemSelect.value;
     if (!itemName) {
@@ -1867,11 +1779,9 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    // Get warehouses storing this item
     const matching = db.getItems().filter(i => i.name === itemName);
     resWHSelect.innerHTML = matching.map(i => `<option value="${i.warehouse}">${i.warehouse} (Avail: ${i.availableQty} ${i.uom})</option>`).join("");
     
-    // Trigger availability details update
     const selectedItem = matching[0];
     resAvailabilityTip.innerText = `Maximum stock allocation: ${selectedItem.availableQty} ${selectedItem.uom}`;
   });
@@ -1910,7 +1820,6 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!checkPermission("EditStock")) return;
       alertRuleForm.reset();
 
-      // Seed items dropdown
       const items = db.getItems();
       alertItemSelect.innerHTML = `<option value="">Choose item...</option>` + 
         items.map(i => `<option value="${i.code}">${i.code} - ${i.name} (${i.warehouse})</option>`).join("");
@@ -1919,7 +1828,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Direct trigger for adjust rules on a specific alert row
   window.openAlertConfigModal = (code) => {
     if (!checkPermission("EditStock")) return;
     const item = db.getItemByCode(code);
@@ -1952,9 +1860,7 @@ document.addEventListener("DOMContentLoaded", () => {
       db.updateItem(item, activeRole);
       showToast(`Low stock alert rules for ${item.code} updated!`, "success");
       closeModal("modal-alert-rule");
-      
-      // Refresh views
-      if (activeSubView === "inv-alerts") renderAlertsRegistry();
+      renderAlertsRegistry();
     }
   });
 
@@ -1967,5 +1873,5 @@ document.addEventListener("DOMContentLoaded", () => {
   Validator.setupRealtimeValidation(wizardForm);
 
   // Initial runs
-  renderDashboard();
+  switchView(activeView);
 });
